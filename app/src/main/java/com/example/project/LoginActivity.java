@@ -102,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                                         map.put("dept_seq",obj.getString("dept_seq"));
                                         map.put("position_num",obj.getString("position_num"));
 
-                                        Log.d("이미지",map.get("profile_img"));
+                                       // Log.d("이미지",map.get("profile_img"));
                                         Intent intent = new Intent(LoginActivity.this, MypageActivity.class);
                                         intent.putExtra("info",map);
 
