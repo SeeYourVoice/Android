@@ -6,12 +6,12 @@
     android:layout_height="match_parent">
 
     <ScrollView
-        android:layout_width="406dp"
-        android:layout_height="203dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
         android:layout_marginEnd="1dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -19,60 +19,72 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/circle_iv"
+                android:layout_width="72dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="44dp"
+                android:layout_marginTop="26dp"
+                android:src="@drawable/DefaultImg"
+                app:civ_border_color="#000000"
+                app:civ_border_overlay="false"
+                app:civ_border_width="1dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/textView6"
-                android:layout_width="57dp"
-                android:layout_height="31dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="성"
+                android:hint="FirstName"
                 android:textAlignment="center"
+                android:textSize="18dp"
                 app:layout_constraintBottom_toBottomOf="@+id/edtMypageFname"
-                app:layout_constraintEnd_toStartOf="@+id/edtMypageFname"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/circle_iv"
                 app:layout_constraintTop_toTopOf="@+id/edtMypageFname" />
 
             <EditText
                 android:id="@+id/edtMypageFname"
-                android:layout_width="284dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="24dp"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginEnd="32dp"
                 android:background="@drawable/style"
                 android:ems="10"
-                android:hint="입력하세요."
+                android:hint="성을 입력하세요"
                 android:inputType="textPersonName"
-                app:layout_constraintBottom_toTopOf="@+id/edtMypageLname"
+                android:textAlignment="center"
+                android:textSize="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/textView6"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/button" />
 
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="이름"
+                android:hint="LastName"
                 android:textAlignment="center"
+                android:textSize="18dp"
                 app:layout_constraintBottom_toBottomOf="@+id/edtMypageLname"
                 app:layout_constraintEnd_toEndOf="@+id/textView6"
-                app:layout_constraintStart_toStartOf="@+id/textView6"
                 app:layout_constraintTop_toTopOf="@+id/edtMypageLname" />
 
             <EditText
                 android:id="@+id/edtMypageLname"
-                android:layout_width="284dp"
-                android:layout_height="48dp"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/style"
                 android:ems="10"
-                android:hint="입력하세요."
+                android:hint="이름을 입력하세요"
                 android:inputType="textPersonName"
+                android:textAlignment="center"
+                android:textSize="12dp"
                 app:layout_constraintBottom_toTopOf="@+id/btnSave"
                 app:layout_constraintEnd_toEndOf="@+id/edtMypageFname"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="@+id/edtMypageFname"
                 app:layout_constraintTop_toBottomOf="@+id/edtMypageFname" />
 
             <Button
@@ -87,6 +99,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edtMypageLname"
                 app:layout_constraintVertical_bias="0.0" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="89dp"
+                android:layout_height="33dp"
+                android:layout_marginStart="116dp"
+                android:backgroundTint="#000000"
+                android:text="사진 찾기"
+                android:textSize="10dp"
+                app:layout_constraintBottom_toBottomOf="@+id/circle_iv"
+                app:layout_constraintStart_toEndOf="@+id/circle_iv" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
