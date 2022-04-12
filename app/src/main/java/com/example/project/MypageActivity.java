@@ -3,6 +3,8 @@ package com.example.project;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -33,7 +36,7 @@ import java.util.Map;
 
 public class MypageActivity extends AppCompatActivity {
 
-    ImageButton btnHome,btnProfile;
+    ImageButton btnHome,btnProfile,btnDelEmail;
     TextView tvName;
 
     PopUp_mypage  PopUp_mypage;
@@ -50,6 +53,7 @@ public class MypageActivity extends AppCompatActivity {
         btnHome = findViewById(R.id.btnHome);
         btnProfile=findViewById(R.id.btnProfile);
         tvName=findViewById(R.id.tvName);
+        btnDelEmail = findViewById(R.id.btnDelEmail);
 
         Intent MypageIntent= getIntent();
 
@@ -141,6 +145,35 @@ public class MypageActivity extends AppCompatActivity {
         });
 
 
+
+        btnDelEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+
+            public void onClick(View view) {
+                new AlertDialog.Builder(MypageActivity.this) // TestActivity 부분에는 현재 Activity의 이름 입력.
+                        .setMessage("계정을 삭제하시겠습니까?")     // 제목 부분 (직접 작성)
+                        .setPositiveButton("예", new DialogInterface.OnClickListener() {      // 버튼1 (직접 작성)
+                            public void onClick(DialogInterface dialog, int which){
+                                // 여기서부터 코드 작성
+                                Toast.makeText(getApplicationContext(), "확인 누름", Toast.LENGTH_SHORT).show(); // 실행할 코드
+
+
+
+                            }
+                        })
+                        .setNegativeButton("아니요", new DialogInterface.OnClickListener() {     // 버튼2 (직접 작성)
+                            public void onClick(DialogInterface dialog, int which){
+                                // 여기서부터 코드 작성
+                                Toast.makeText(getApplicationContext(), "취소 누름", Toast.LENGTH_SHORT).show(); // 실행할 코드
+
+
+
+                            }
+                        })
+                        .show();
+
+            }
+        });
 
     }
 

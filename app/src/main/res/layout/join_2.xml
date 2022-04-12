@@ -92,6 +92,7 @@
         android:ems="10"
         android:hint="    E-mail"
         android:inputType="textPersonName"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
@@ -105,6 +106,7 @@
         android:ems="10"
         android:hint="    Password"
         android:inputType="textPassword"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="@+id/edtNewEmail"
         app:layout_constraintStart_toStartOf="@+id/edtNewEmail"
         app:layout_constraintTop_toBottomOf="@+id/edtNewEmail" />
@@ -118,6 +120,7 @@
         android:ems="10"
         android:hint="    Password Check"
         android:inputType="textPassword"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="@+id/edtNewPw"
         app:layout_constraintStart_toStartOf="@+id/edtNewPw"
         app:layout_constraintTop_toBottomOf="@+id/edtNewPw" />

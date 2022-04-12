@@ -32,18 +32,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="28dp"
-            android:layout_marginTop="24dp"
             android:text="신서후 / 사원"
+            android:textSize="12dp"
             app:layout_constraintBottom_toTopOf="@+id/tvDept"
             app:layout_constraintStart_toEndOf="@+id/circle_iv"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/circle_iv" />
 
         <TextView
             android:id="@+id/tvDept"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="기술 1팀"
+            android:textSize="12dp"
+            app:layout_constraintBottom_toTopOf="@+id/tvMypageEmail"
             app:layout_constraintStart_toStartOf="@+id/tvName"
             app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
@@ -55,7 +56,7 @@
             android:layout_marginStart="40dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:src="@drawable/ic_launcher_foreground"
+            android:src="@drawable/default_img"
             app:civ_border_color="#000000"
             app:civ_border_overlay="false"
             app:civ_border_width="1dp"
@@ -63,6 +64,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/tvMypageEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="seohoo1996@naver.com"
+            android:textSize="12dp"
+            app:layout_constraintBottom_toBottomOf="@+id/circle_iv"
+            app:layout_constraintStart_toStartOf="@+id/tvDept"
+            app:layout_constraintTop_toBottomOf="@+id/tvDept" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageButton
@@ -101,7 +112,7 @@
         app:srcCompat="@drawable/pro4" />
 
     <ImageButton
-        android:id="@+id/imageButton9"
+        android:id="@+id/btnDelEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
