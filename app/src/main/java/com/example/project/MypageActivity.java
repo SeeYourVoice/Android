@@ -22,6 +22,12 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,6 +58,9 @@ public class MypageActivity extends AppCompatActivity {
         String last_name=info.get("last_name");
         String id=info.get("user_email");
         String pw=info.get("user_password");
+        String blob=info.get("profile_img");
+
+
 
         //합쳐서 출력
         tvName.setText(first_name+last_name);
@@ -131,5 +140,27 @@ public class MypageActivity extends AppCompatActivity {
             }
         });
 
+
+
+    }
+
+    public void toImage(Blob blob){
+        FileOutputStream fos;
+
+        try {
+            byte[] data=blob.getBytes(1, (int)blob.length());
+
+            File path = this.getDir("drawable", 0);
+
+            File file = new File(path, "person.jpg");
+            fos = new FileOutputStream(file);
+            fos.write(data);
+            fos.close();
+
+        } catch (SQLException | FileNotFoundException throwables) {
+            throwables.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
