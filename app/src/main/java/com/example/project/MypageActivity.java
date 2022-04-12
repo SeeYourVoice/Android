@@ -152,7 +152,7 @@ public class MypageActivity extends AppCompatActivity {
             public void onClick(View view) {
                 new AlertDialog.Builder(MypageActivity.this) // TestActivity 부분에는 현재 Activity의 이름 입력.
                         .setMessage("계정을 삭제하시겠습니까?")     // 제목 부분 (직접 작성)
-                        .setPositiveButton("예", new DialogInterface.OnClickListener() {      // 버튼1 (직접 작성)
+                        .setPositiveButton("아니요", new DialogInterface.OnClickListener() {      // 버튼1 (직접 작성)
                             public void onClick(DialogInterface dialog, int which){
                                 // 여기서부터 코드 작성
                                 Toast.makeText(getApplicationContext(), "확인 누름", Toast.LENGTH_SHORT).show(); // 실행할 코드
@@ -161,7 +161,7 @@ public class MypageActivity extends AppCompatActivity {
 
                             }
                         })
-                        .setNegativeButton("아니요", new DialogInterface.OnClickListener() {     // 버튼2 (직접 작성)
+                        .setNegativeButton("예", new DialogInterface.OnClickListener() {     // 버튼2 (직접 작성)
                             public void onClick(DialogInterface dialog, int which){
                                 // 여기서부터 코드 작성
                                 Toast.makeText(getApplicationContext(), "취소 누름", Toast.LENGTH_SHORT).show(); // 실행할 코드
