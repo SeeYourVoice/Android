@@ -155,7 +155,7 @@ public class MypageActivity extends AppCompatActivity {
                         .setPositiveButton("아니요", new DialogInterface.OnClickListener() {      // 버튼1 (직접 작성)
                             public void onClick(DialogInterface dialog, int which){
                                 // 여기서부터 코드 작성
-                                Toast.makeText(getApplicationContext(), "확인 누름", Toast.LENGTH_SHORT).show(); // 실행할 코드
+                                Toast.makeText(getApplicationContext(), "취소 누름", Toast.LENGTH_SHORT).show(); // 실행할 코드
 
 
 
@@ -164,7 +164,7 @@ public class MypageActivity extends AppCompatActivity {
                         .setNegativeButton("예", new DialogInterface.OnClickListener() {     // 버튼2 (직접 작성)
                             public void onClick(DialogInterface dialog, int which){
                                 // 여기서부터 코드 작성
-                                Toast.makeText(getApplicationContext(), "취소 누름", Toast.LENGTH_SHORT).show(); // 실행할 코드
+                                Toast.makeText(getApplicationContext(), "확인 누름", Toast.LENGTH_SHORT).show(); // 실행할 코드
 
 
 
