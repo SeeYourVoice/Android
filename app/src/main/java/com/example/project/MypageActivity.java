@@ -98,7 +98,7 @@ public class MypageActivity extends AppCompatActivity {
 
                     }
 
-                    String serverUrl="http://121.147.52.219:8081/Moim_server/Moim_SearchService";
+                    String serverUrl="http://121.147.52.219:8081/Moim_server/Moim_InfoEditService";
 
                     request= new StringRequest(
                             Request.Method.POST,
@@ -106,16 +106,12 @@ public class MypageActivity extends AppCompatActivity {
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
-                                    try {
-                                        JSONObject obj= new JSONObject(response);
+                                    if(response.equals("성공")){
+                                        tvName.setText(first_name+last_name);
 
-                                        tvName.setText( obj.getString("first_name")
-                                                +obj.getString("last_name"));
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
+                                    }else{
+                                        Toast.makeText(MypageActivity.this, "수정에 실패했습니다.", Toast.LENGTH_SHORT).show();
                                     }
-
                                 }
                             },
                             new Response.ErrorListener() {
