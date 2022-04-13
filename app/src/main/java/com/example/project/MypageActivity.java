@@ -3,6 +3,7 @@ package com.example.project;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -44,6 +45,7 @@ public class MypageActivity extends AppCompatActivity {
     RequestQueue requestQueue;
     StringRequest request;
 
+    String first_name,last_name,id,pw,profile_img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +60,11 @@ public class MypageActivity extends AppCompatActivity {
         Intent MypageIntent= getIntent();
 
         HashMap<String, String> info =(HashMap<String, String>)MypageIntent.getSerializableExtra("info");
-        String first_name=info.get("first_name");
-        String last_name=info.get("last_name");
-        String id=info.get("user_email");
-        String pw=info.get("user_password");
-        String blob=info.get("profile_img");
+        first_name=info.get("first_name");
+        last_name=info.get("last_name");
+        id=info.get("user_email");
+        pw=info.get("user_password");
+        profile_img=info.get("profile_img");
 
 
 
@@ -84,61 +86,86 @@ public class MypageActivity extends AppCompatActivity {
             }
         });
 
+
+
         //프로필 수정 클릭
+
         btnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 PopUp_mypage=new PopUp_mypage(MypageActivity.this);
+                PopUp_mypage.setActivity( MypageActivity.this );
                 PopUp_mypage.show();
 
-                //팝업창이 닫혔다면
-                if(!PopUp_mypage.isShowing()){
-                    if(requestQueue==null){
-                        requestQueue = Volley.newRequestQueue(getApplicationContext());
+                PopUp_mypage.setOnDismissListener(new DialogInterface.OnDismissListener(){
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        Log.d("pop up ","꺼짐ㅡ");
+                        MyApplication app = (MyApplication) MypageActivity.this.getApplication();
+                        first_name= app.getFirstName();
+                        last_name=app.getlastName();
 
-                    }
+                        if(requestQueue==null){
+                            requestQueue = Volley.newRequestQueue(getApplicationContext());
 
-                    String serverUrl="http://121.147.52.219:8081/Moim_server/Moim_InfoEditService";
+                        }
 
-                    request= new StringRequest(
-                            Request.Method.POST,
-                            serverUrl,
-                            new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
-                                    if(response.equals("성공")){
+                        String serverUrl="http://121.147.52.219:8081/Moim_server/Moim_Edit_MyInfo_Service";
+
+                        request= new StringRequest(
+                                Request.Method.POST,
+                                serverUrl,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        if(response.equals("성공")){
+                                            Toast.makeText(MypageActivity.this,"수정 완료",Toast.LENGTH_SHORT).show();
+                                            tvName.setText(first_name+last_name);
+
+                                        }else{
+                                            Toast.makeText(MypageActivity.this, "수정에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                                            first_name=info.get("first_name");
+                                            last_name=info.get("last_name");
+                                            tvName.setText(first_name+last_name);
+                                        }
+                                    }
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Log.d("오류", "오류");
+                                        first_name=info.get("first_name");
+                                        last_name=info.get("last_name");
                                         tvName.setText(first_name+last_name);
-
-                                    }else{
-                                        Toast.makeText(MypageActivity.this, "수정에 실패했습니다.", Toast.LENGTH_SHORT).show();
                                     }
                                 }
-                            },
-                            new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Log.d("오류", "조회 오류");
-                                }
+                        ){
+                            @Nullable
+                            @Override
+                            protected Map<String, String> getParams() throws AuthFailureError {
+                                Map<String,String> MypageParams= new HashMap<String, String>();
+
+                                //계정정보 넣고 조회
+                                MypageParams.put("id",id);
+                                MypageParams.put("fname",first_name);
+                                MypageParams.put("lname",last_name);
+
+                                return MypageParams;
                             }
-                    ){
-                        @Nullable
-                        @Override
-                        protected Map<String, String> getParams() throws AuthFailureError {
-                            Map<String,String> params= new HashMap<String, String>();
+                        };
 
-                            //계정정보 넣고 조회
-                            params.put("id",id);
-                            params.put("pw",pw);
+                        requestQueue.add(request);
+                    }
+                });
 
-                            return params;
-                        }
-                    };
 
-                }
+
+
 
 
             }
         });
+
 
 
 
@@ -173,23 +200,7 @@ public class MypageActivity extends AppCompatActivity {
 
     }
 
-    public void toImage(Blob blob){
-        FileOutputStream fos;
 
-        try {
-            byte[] data=blob.getBytes(1, (int)blob.length());
 
-            File path = this.getDir("drawable", 0);
 
-            File file = new File(path, "person.jpg");
-            fos = new FileOutputStream(file);
-            fos.write(data);
-            fos.close();
-
-        } catch (SQLException | FileNotFoundException throwables) {
-            throwables.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }
