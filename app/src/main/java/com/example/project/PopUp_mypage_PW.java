@@ -2,6 +2,7 @@ package com.example.project;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,9 +38,11 @@ public class PopUp_mypage_PW extends Dialog {
         btnPwSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SharedPreferences sp= getContext().getSharedPreferences("info",0);
+                pw=sp.getString("user_password","none");
+
 
                 MyApplication app=(MyApplication)PopUp_mypage_PW.this.activity.getApplication();
-                pw=app.getPw(); //원본
 
                 ppw=edtMypagePPw.getText().toString();
                 npw=edtMypageNPw.getText().toString();
@@ -49,18 +52,23 @@ public class PopUp_mypage_PW extends Dialog {
                if(pw.equals(ppw)){
                    //2. 새 비밀번호와 확인란의 텍스트값이 일치하는가?
                     if(npw.equals(cpw)){
-                        app.setPw(cpw);//변경할 비밀번호 넘겨줌.
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putString("user_password",cpw);
+                        editor.commit();
+
+
                         dismiss();
+
                     }else{
 
                         //이거 안됨.
 
-                        edtMypageCPw.setText("일치하지 않습니다.");
+                        edtMypageCPw.setText("");
                     }
 
 
                }else{
-                   edtMypagePPw.setText("비밀번호가 다릅니다");
+                   edtMypagePPw.setText("");
                }
 
             }
