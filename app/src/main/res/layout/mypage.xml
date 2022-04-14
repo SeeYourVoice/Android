@@ -89,41 +89,7 @@
         app:srcCompat="@drawable/pro1" />
 
     <ImageButton
-        android:id="@+id/imageButton7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:padding="0dp"
-        app:layout_constraintEnd_toEndOf="@+id/imageButton10"
-        app:layout_constraintHorizontal_bias="0.519"
-        app:layout_constraintStart_toStartOf="@+id/imageButton10"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton10"
-        app:srcCompat="@drawable/pro3" />
-
-    <ImageButton
-        android:id="@+id/imageButton8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:padding="0dp"
-        app:layout_constraintEnd_toEndOf="@+id/imageButton7"
-        app:layout_constraintStart_toStartOf="@+id/imageButton7"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton7"
-        app:srcCompat="@drawable/pro4" />
-
-    <ImageButton
-        android:id="@+id/btnDelEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:padding="0dp"
-        app:layout_constraintEnd_toEndOf="@+id/imageButton8"
-        app:layout_constraintStart_toStartOf="@+id/imageButton8"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton8"
-        app:srcCompat="@drawable/pro5" />
-
-    <ImageButton
-        android:id="@+id/imageButton10"
+        android:id="@+id/btnMypagePw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -132,6 +98,40 @@
         app:layout_constraintStart_toStartOf="@+id/btnProfile"
         app:layout_constraintTop_toBottomOf="@+id/btnProfile"
         app:srcCompat="@drawable/pro2" />
+
+    <ImageButton
+        android:id="@+id/btnMypagePosition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:padding="0dp"
+        app:layout_constraintEnd_toEndOf="@+id/btnMypagePw"
+        app:layout_constraintHorizontal_bias="0.519"
+        app:layout_constraintStart_toStartOf="@+id/btnMypagePw"
+        app:layout_constraintTop_toBottomOf="@+id/btnMypagePw"
+        app:srcCompat="@drawable/pro3" />
+
+    <ImageButton
+        android:id="@+id/btnMypageDept"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:padding="0dp"
+        app:layout_constraintEnd_toEndOf="@+id/btnMypagePosition"
+        app:layout_constraintStart_toStartOf="@+id/btnMypagePosition"
+        app:layout_constraintTop_toBottomOf="@+id/btnMypagePosition"
+        app:srcCompat="@drawable/pro4" />
+
+    <ImageButton
+        android:id="@+id/btnDelEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:padding="0dp"
+        app:layout_constraintEnd_toEndOf="@+id/btnMypageDept"
+        app:layout_constraintStart_toStartOf="@+id/btnMypageDept"
+        app:layout_constraintTop_toBottomOf="@+id/btnMypageDept"
+        app:srcCompat="@drawable/pro5" />
 
     <ImageView
         android:id="@+id/imageView6"

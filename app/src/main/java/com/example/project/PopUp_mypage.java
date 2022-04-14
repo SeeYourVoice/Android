@@ -1,15 +1,11 @@
 package com.example.project;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -47,7 +43,6 @@ public class PopUp_mypage extends Dialog {
                 MyApplication app = (MyApplication)PopUp_mypage.this.activity.getApplication();
                 app.setFirstName(fname);
                 app.setlastName(lname);
-                app.flag=true;
 
                 Log.d("이름_popup",fname);
                 Log.d("이름_popup",lname);

@@ -37,7 +37,7 @@ import java.util.Map;
 
 public class MypageActivity extends AppCompatActivity {
 
-    ImageButton btnHome,btnProfile,btnDelEmail;
+    ImageButton btnHome,btnProfile,btnPw,btnDept,btnPosition,btnDelEmail;
     TextView tvName;
 
     PopUp_mypage  PopUp_mypage;
@@ -52,11 +52,18 @@ public class MypageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mypage);
 
-        btnHome = findViewById(R.id.btnHome);
-        btnProfile=findViewById(R.id.btnProfile);
         tvName=findViewById(R.id.tvName);
+
+        btnHome = findViewById(R.id.btnHome);
+
+        btnProfile=findViewById(R.id.btnProfile);
+        btnPw=findViewById(R.id.btnMypagePw);
+        btnDept=findViewById(R.id.btnMypageDept);
+        btnPosition=findViewById(R.id.btnMypagePosition);
         btnDelEmail = findViewById(R.id.btnDelEmail);
 
+
+        //로그인에서 넘어온 회원정보받음.
         Intent MypageIntent= getIntent();
 
         HashMap<String, String> info =(HashMap<String, String>)MypageIntent.getSerializableExtra("info");
@@ -66,6 +73,7 @@ public class MypageActivity extends AppCompatActivity {
         pw=info.get("user_password");
         profile_img=info.get("profile_img");
 
+        ((MyApplication)getApplication()).setPw(pw);
 
 
         //합쳐서 출력
@@ -77,7 +85,7 @@ public class MypageActivity extends AppCompatActivity {
         layoutParams.dimAmount = 0.8f;
         getWindow().setAttributes(layoutParams);
 
-        //홈버튼 클릭
+        //홈버튼 클릭   ====================
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,8 +96,7 @@ public class MypageActivity extends AppCompatActivity {
 
 
 
-        //프로필 수정 클릭
-
+        //프로필 수정 클릭   ====================
         btnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -167,8 +174,88 @@ public class MypageActivity extends AppCompatActivity {
         });
 
 
+        //비밀번호 변경   ====================
+        btnPw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopUp_mypage_PW popUp_mypage_pw=new PopUp_mypage_PW(MypageActivity.this);
+                popUp_mypage_pw.setActivity(MypageActivity.this);
+                popUp_mypage_pw.show();
+
+                popUp_mypage_pw.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        Log.d("pop up ", ((MyApplication)getApplication()).getPw());
+                        String npw=  ((MyApplication)getApplication()).getPw();
 
 
+                        if(requestQueue==null){
+                            requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+                        }
+
+                        String serverUrl="http://121.147.52.219:8081/Moim_server/Moim_Edit_MyPw";
+
+                        request=new StringRequest(
+                                Request.Method.POST,
+                                serverUrl,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        if(response.equals("성공")){
+                                            Toast.makeText(MypageActivity.this,"수정 완료",Toast.LENGTH_SHORT).show();
+                                        }else{
+                                            Toast.makeText(MypageActivity.this, "수정에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Log.d("오류", "비밀번호 설정오류");
+                                    }
+                        }){
+
+                            @Nullable
+                            @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            Map<String,String> PwParams= new HashMap<String, String>();
+
+                            //계정정보 넣고 조회
+                            PwParams.put("id",id);
+                            PwParams.put("npw",npw);
+
+                            return PwParams;
+                        }
+
+                        };
+
+                        requestQueue.add(request);
+
+
+                    }
+                });
+            }
+        });
+
+        //직급변경    ====================
+       btnPosition.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+
+           }
+       });
+
+        // 회사변경    ====================
+        btnDept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+
+
+        //회원탈퇴   ====================
         btnDelEmail.setOnClickListener(new View.OnClickListener() {
             @Override
 

@@ -8,7 +8,8 @@ public class MyApplication extends Application {
     //전역변수들 모임
     private String firstName ;
     private String lastName ;
-    boolean flag=false;
+    private String pw;
+
 
     public String getFirstName(){
         return firstName;
@@ -24,4 +25,10 @@ public class MyApplication extends Application {
         this.lastName=lastName;
     }
 
+    public String getPw() {
+        return pw;
+    }
+    public void setPw(String pw) {
+        this.pw = pw;
+    }
 }
