@@ -115,6 +115,9 @@ public class MypageActivity extends AppCompatActivity {
                         first_name=sp.getString("first_name","none");
                         last_name=sp.getString("last_name","none");
 
+                        Log.d("이름_mypage",first_name);
+                        Log.d("이름_mypage",last_name);
+
                         if(requestQueue==null){
                             requestQueue = Volley.newRequestQueue(getApplicationContext());
 
