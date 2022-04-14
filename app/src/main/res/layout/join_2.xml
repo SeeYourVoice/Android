@@ -38,7 +38,7 @@
         app:srcCompat="@drawable/a2" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tvmemo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -58,7 +58,7 @@
         android:textColor="#0000FF"
         android:textSize="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/tvmemo" />
 
     <ImageView
         android:id="@+id/imageView5"
@@ -90,7 +90,8 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/style"
         android:ems="10"
-        android:hint="    E-mail"
+        android:gravity="center"
+        android:hint="E-mail"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -103,7 +104,8 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/style"
         android:ems="10"
-        android:hint="    Password"
+        android:gravity="center"
+        android:hint="Password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="@+id/edtNewEmail"
         app:layout_constraintStart_toStartOf="@+id/edtNewEmail"
@@ -116,7 +118,8 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/style"
         android:ems="10"
-        android:hint="    Password Check"
+        android:gravity="center"
+        android:hint="Password Check"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="@+id/edtNewPw"
         app:layout_constraintStart_toStartOf="@+id/edtNewPw"

@@ -38,7 +38,7 @@
         app:srcCompat="@drawable/a3" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tvmemo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -58,7 +58,7 @@
         android:textColor="#0000FF"
         android:textSize="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/tvmemo" />
 
     <ImageView
         android:id="@+id/imageView5"
@@ -89,34 +89,40 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/style"
         android:ems="10"
-        android:hint="    Corporation"
+        android:gravity="center"
+        android:hint="Corporation"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
-    <EditText
+    <TextView
         android:id="@+id/edtDep"
         android:layout_width="250dp"
         android:layout_height="40dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/style"
         android:ems="10"
-        android:hint="    Select Department"
+        android:gravity="center"
+        android:hint="Department"
         android:inputType="textPersonName"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/edtCor"
         app:layout_constraintStart_toStartOf="@+id/edtCor"
         app:layout_constraintTop_toBottomOf="@+id/edtCor" />
 
-    <EditText
+
+    <TextView
         android:id="@+id/edtPos"
         android:layout_width="250dp"
         android:layout_height="40dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/style"
         android:ems="10"
-        android:hint="    Select Position"
+        android:gravity="center"
+        android:hint="Position"
         android:inputType="textPersonName"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/edtDep"
         app:layout_constraintStart_toStartOf="@+id/edtDep"
         app:layout_constraintTop_toBottomOf="@+id/edtDep" />

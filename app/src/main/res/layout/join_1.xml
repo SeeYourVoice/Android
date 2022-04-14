@@ -34,7 +34,8 @@
         android:layout_marginTop="40dp"
         android:background="@drawable/style"
         android:ems="10"
-        android:hint="    First Name"
+        android:gravity="center"
+        android:hint="First Name"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +48,8 @@
         android:layout_marginTop="30dp"
         android:background="@drawable/style"
         android:ems="10"
-        android:hint="    Last Name"
+        android:gravity="center"
+        android:hint="Last Name"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="@+id/edtFname"
         app:layout_constraintStart_toStartOf="@+id/edtFname"
@@ -64,7 +66,7 @@
         app:srcCompat="@drawable/a1" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tvmemo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -84,7 +86,7 @@
         android:textColor="#0000FF"
         android:textSize="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/tvmemo" />
 
     <ImageView
         android:id="@+id/imageView5"
