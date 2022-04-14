@@ -139,7 +139,7 @@ public class JoinActivity_3 extends AppCompatActivity {
                 String department = edtDep.getText().toString();
                 String position = edtPos.getText().toString();
 
-                String serverUrl="http://121.147.52.219:8081/Moim_server/Moim_JoinService";
+                String serverUrl="http://222.102.104.208:8081/Moim_server/Moim_JoinService";
 
                 // 회사이름 칸 빈칸 x
                 if(validate)
@@ -179,6 +179,7 @@ public class JoinActivity_3 extends AppCompatActivity {
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) { // 응답 수행
+                                Log.d("Join", "resopnse:" + response);
                                 if (response.equals("")) {
 
                                     // Toast메시지 출력
@@ -192,11 +193,11 @@ public class JoinActivity_3 extends AppCompatActivity {
                             }
                         },
                         new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) { // 오류
-                        Log.d("오류", "가입 오류..!");
-                    }
-                }
+                            @Override
+                            public void onErrorResponse(VolleyError error) { // 오류
+                                Log.d("오류", "가입 오류..!");
+                            }
+                        }
 
                 ) {
                     @Nullable
