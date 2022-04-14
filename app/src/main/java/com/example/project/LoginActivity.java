@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DownloadManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -49,6 +50,11 @@ public class LoginActivity extends AppCompatActivity {
         edtEmail=findViewById(R.id.edtEmail);
         edtPassword=findViewById(R.id.edtPassword);
 
+        //정보를 디렉토리에 저장해줌
+        //getSharedPreferences("파일이름",'모드')
+        //모드 => 0 (읽기,쓰기가능)
+        //모드 => MODE_PRIVATE (이 앱에서만 사용가능)
+        SharedPreferences preferences=getSharedPreferences("info", MODE_PRIVATE);
 
         //회원가입
         btnJoin.setOnClickListener(new View.OnClickListener() {
@@ -89,23 +95,23 @@ public class LoginActivity extends AppCompatActivity {
                                     if(!response.equals("false")) { //로그인이 성공했다면
                                         JSONObject obj= new JSONObject(response);
 
-                                        //StringBuffer sb = new StringBuffer();
 
-                                        map= new HashMap<String,String>();
+                                        SharedPreferences.Editor editor = preferences.edit();
+                                        editor.putString("user_email", obj.getString("user_email"));
+                                        editor.putString("user_password", obj.getString("user_password"));
+                                        editor.putString("first_name", obj.getString("first_name"));
+                                        editor.putString("last_name", obj.getString("last_name"));
+                                        editor.putString("profile_img", obj.getString("profile_img"));
+                                        editor.putString("user_joindate", obj.getString("user_joindate"));
+                                        editor.putString("corp_name", obj.getString("corp_name"));
+                                        editor.putString("dept_seq", obj.getString("dept_seq"));
+                                        editor.putString("dept", obj.getString("dept"));
+                                        editor.putString("position_num", obj.getString("position_num"));
+                                        editor.putString("position_name", obj.getString("position_name"));
 
-                                        map.put("user_email",obj.getString("user_email"));
-                                        map.put("user_password",obj.getString("user_password"));
-                                        map.put("first_name",obj.getString("first_name"));
-                                        map.put("last_name",obj.getString("last_name"));
-                                        map.put("profile_img",obj.getString("profile_img"));
-                                        map.put("user_joindate",obj.getString("user_joindate"));
-                                        map.put("dept_seq",obj.getString("dept_seq"));
-
-
+                                        editor.commit();
 
                                         Intent intent = new Intent(LoginActivity.this, MypageActivity.class);
-                                        intent.putExtra("info",map);
-
                                         startActivity(intent);
 
                                     }else{

@@ -3,10 +3,10 @@ package com.example.project;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,36 +23,33 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MypageActivity extends AppCompatActivity {
 
     ImageButton btnHome,btnProfile,btnPw,btnDept,btnPosition,btnDelEmail;
-    TextView tvName;
+    TextView tvName,tvPos,tvDept,tvMypageEmail;
 
     PopUp_mypage  PopUp_mypage;
 
     RequestQueue requestQueue;
     StringRequest request;
 
-    String first_name,last_name,id,pw,profile_img;
+    String first_name,last_name,id,pw,profile_img,position_num,position_name,dept_name;
 
+    String org_fname,org_lname;
+
+    SharedPreferences sp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mypage);
 
-        tvName=findViewById(R.id.tvName);
+        tvName=findViewById(R.id.tvPos);
+        tvPos=findViewById(R.id.tvName);
+        tvDept=findViewById(R.id.tvDept);
+        tvMypageEmail=findViewById(R.id.tvMypageEmail);
 
         btnHome = findViewById(R.id.btnHome);
 
@@ -63,21 +60,27 @@ public class MypageActivity extends AppCompatActivity {
         btnDelEmail = findViewById(R.id.btnDelEmail);
 
 
+
         //로그인에서 넘어온 회원정보받음.
-        Intent MypageIntent= getIntent();
 
-        HashMap<String, String> info =(HashMap<String, String>)MypageIntent.getSerializableExtra("info");
-        first_name=info.get("first_name");
-        last_name=info.get("last_name");
-        id=info.get("user_email");
-        pw=info.get("user_password");
-        profile_img=info.get("profile_img");
 
-        ((MyApplication)getApplication()).setPw(pw);
-
+        sp= getSharedPreferences("info",0);
+        first_name=sp.getString("first_name","none");
+        last_name=sp.getString("last_name","none");
+        id=sp.getString("user_email","none");
+        pw=sp.getString("user_password","none");
+        profile_img=sp.getString("profile_img","none");
+        position_num=sp.getString("position_num","none");
+        position_name=sp.getString("position_name","none");
+        dept_name=sp.getString("dept","none");
+        org_fname=first_name;
+        org_lname=last_name;
 
         //합쳐서 출력
         tvName.setText(first_name+last_name);
+        tvPos.setText(position_name);
+        tvDept.setText(dept_name);
+        tvMypageEmail.setText(id);
 
         //다이얼로그 밖의 화면은 흐리게 만들어줌
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
@@ -108,9 +111,12 @@ public class MypageActivity extends AppCompatActivity {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
                         Log.d("pop up ","꺼짐ㅡ");
-                        MyApplication app = (MyApplication) MypageActivity.this.getApplication();
-                        first_name= app.getFirstName();
-                        last_name=app.getlastName();
+                        sp= getSharedPreferences("info",0);
+                        first_name=sp.getString("first_name","none");
+                        last_name=sp.getString("last_name","none");
+
+                        Log.d("이름_mypage",first_name);
+                        Log.d("이름_mypage",last_name);
 
                         if(requestQueue==null){
                             requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -131,9 +137,13 @@ public class MypageActivity extends AppCompatActivity {
 
                                         }else{
                                             Toast.makeText(MypageActivity.this, "수정에 실패했습니다.", Toast.LENGTH_SHORT).show();
-                                            first_name=info.get("first_name");
-                                            last_name=info.get("last_name");
-                                            tvName.setText(first_name+last_name);
+                                            tvName.setText(org_fname+org_lname);
+                                            sp= getSharedPreferences("info",0);
+                                            SharedPreferences.Editor editor = sp.edit();
+                                            editor.putString("first_name",org_fname);
+                                            editor.putString("last_name",org_lname);
+                                            editor.commit();
+
                                         }
                                     }
                                 },
@@ -141,9 +151,11 @@ public class MypageActivity extends AppCompatActivity {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
                                         Log.d("오류", "오류");
-                                        first_name=info.get("first_name");
-                                        last_name=info.get("last_name");
-                                        tvName.setText(first_name+last_name);
+                                        sp= getSharedPreferences("info",0);
+                                        SharedPreferences.Editor editor = sp.edit();
+                                        editor.putString("first_name",org_fname);
+                                        editor.putString("last_name",org_lname);
+                                        editor.commit();
                                     }
                                 }
                         ){
@@ -185,9 +197,8 @@ public class MypageActivity extends AppCompatActivity {
                 popUp_mypage_pw.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialogInterface) {
-                        Log.d("pop up ", ((MyApplication)getApplication()).getPw());
-                        String npw=  ((MyApplication)getApplication()).getPw();
-
+                        SharedPreferences sp= getSharedPreferences("info",0);
+                        String npw=  sp.getString("user_password","none");
 
                         if(requestQueue==null){
                             requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -206,6 +217,7 @@ public class MypageActivity extends AppCompatActivity {
                                             Toast.makeText(MypageActivity.this,"수정 완료",Toast.LENGTH_SHORT).show();
                                         }else{
                                             Toast.makeText(MypageActivity.this, "수정에 실패했습니다.", Toast.LENGTH_SHORT).show();
+
                                         }
                                     }
                                 }, new Response.ErrorListener() {
@@ -241,9 +253,64 @@ public class MypageActivity extends AppCompatActivity {
        btnPosition.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
+               PopUp_mypage_Pos popUp_mypage_pos = new PopUp_mypage_Pos(MypageActivity.this);
+               popUp_mypage_pos.setActivity(MypageActivity.this);
+               popUp_mypage_pos.show();
+
+               popUp_mypage_pos.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                   @Override
+                   public void onDismiss(DialogInterface dialogInterface) {
+                       SharedPreferences sp= getSharedPreferences("info",0);
+
+                       tvPos.setText(sp.getString("position_name","none"));
+
+                       if(requestQueue==null){
+                           requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+                       }
+
+                       String serverUrl="http://121.147.52.219:8081/Moim_server/Moim_Edit_MyPw";
+
+
+                       request=new StringRequest(
+                               Request.Method.POST,
+                               serverUrl,
+                               new Response.Listener<String>() {
+                                   @Override
+                                   public void onResponse(String response) {
+
+                                   }
+                               },
+                               new Response.ErrorListener() {
+                                   @Override
+                                   public void onErrorResponse(VolleyError error) {
+
+                                   }
+                               }
+                       ){
+                           //계정 정보 편집
+                           @Nullable
+                           @Override
+                           protected Map<String, String> getParams() throws AuthFailureError {
+                               Map<String,String> Params= new HashMap<String, String>();
+
+                               Params.put("id",id);
+
+                               return Params;
+                           }
+
+                       };
+
+                       requestQueue.add(request);
+                   }
+               });
 
            }
        });
+
+
+
+
 
         // 회사변경    ====================
         btnDept.setOnClickListener(new View.OnClickListener() {
@@ -284,6 +351,8 @@ public class MypageActivity extends AppCompatActivity {
 
             }
         });
+
+
 
     }
 
