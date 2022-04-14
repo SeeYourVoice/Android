@@ -3,7 +3,6 @@ package com.example.project;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,13 +15,14 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerAdapter adapter;
-    ImageButton btnMypage;
-    ImageButton btnHome;
+    ImageButton btnMypage, btnHome, btnGetDept;
+    RecyclerView deptListView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.mainlist);
 
         init();
 
@@ -30,7 +30,25 @@ public class MainActivity extends AppCompatActivity {
 
         btnMypage = findViewById(R.id.btnMypage);
         btnHome = findViewById(R.id.btnHome);
+        btnGetDept = findViewById(R.id.btnGetDept);
 
+
+        // 부서 리스트 버튼
+        btnGetDept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                deptListView = findViewById(R.id.deptListView);
+
+                // 버튼 클릭시 리사이클러뷰 보이기
+                deptListView.setVisibility(View.VISIBLE);
+                // 버튼 클릭시 리사이클러뷰 숨기기
+                //deptListView.setVisibility(View.INVISIBLE);
+
+            }
+        });
+
+        // 홈버튼
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -40,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        // 마이페이지 버튼
         btnMypage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = findViewById(R.id.deptRecyclerView);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -88,7 +107,8 @@ public class MainActivity extends AppCompatActivity {
             // 각 List의 값들을 data 객체에 set 해줍니다.
             Data data = new Data();
             data.setTitle(listTitle.get(i));
-            data.setContent(listContent.get(i));
+
+            /*data.setContent(listContent.get(i));*/////////////////////////////////////////////////
 
             // 각 값이 들어간 data를 adapter에 추가합니다.
             adapter.addItem(data);

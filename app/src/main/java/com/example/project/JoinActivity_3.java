@@ -31,13 +31,11 @@ import java.util.Map;
 
 public class JoinActivity_3 extends AppCompatActivity {
 
-    // 전역변수 선언
+    // 필드변수 선언
     TextView edtCor, edtDep, edtPos;
-
     Button btnCon, btnLoginGo;
 
-    RequestQueue requestQueue;
-
+    RequestQueue requestQueue; // 통신
     StringRequest request;
 
     HashMap<String,String> map;
@@ -62,8 +60,13 @@ public class JoinActivity_3 extends AppCompatActivity {
         btnLoginGo = findViewById(R.id.btnLoginGo);
 
         edtCor = findViewById(R.id.edtCor);
-////////////////////////////////////////////////////////////////////////////////////////////////////
         edtDep = (TextView) findViewById(R.id.edtDep);
+
+        // ☆☆☆ 초기화를 안해놓으면 서버 통신이 안된다(전송이 되지 않는다!!!!)
+        if(requestQueue == null){
+            requestQueue = Volley.newRequestQueue(JoinActivity_3.this);
+        }
+
         // 부서 선택
         edtDep.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,6 +117,9 @@ public class JoinActivity_3 extends AppCompatActivity {
             }
         });
 
+
+
+
         // 회원가입_3
         btnCon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,6 +156,7 @@ public class JoinActivity_3 extends AppCompatActivity {
                 }
 
                 //입력값 확인
+
                 Log.d("입력", corporation);
                 Log.d("입력", department);
                 Log.d("입력", position);
@@ -175,7 +182,8 @@ public class JoinActivity_3 extends AppCompatActivity {
 
                                     // Toast메시지 출력
                                     Toast.makeText(JoinActivity_3.this, "가입성공!", Toast.LENGTH_SHORT).show();
-
+                                    Intent loginintent = new Intent(JoinActivity_3.this, LoginActivity.class);
+                                    startActivity(loginintent);
                                 } else {
                                     Toast.makeText(JoinActivity_3.this, "가입실패!", Toast.LENGTH_SHORT).show();
 
@@ -195,8 +203,9 @@ public class JoinActivity_3 extends AppCompatActivity {
                     // 서버에 데이터 전달
                     protected Map<String, String> getParams() throws AuthFailureError {
 
+                        // HashMap로 맵객체 생성
                         Map<String, String> params = new HashMap<>();
-                        Intent intent = getIntent();
+
                         // 값 보내기
                         params.put("user_email",intent.getStringExtra("user_email"));
                         params.put("user_password",intent.getStringExtra("user_password"));
@@ -210,10 +219,10 @@ public class JoinActivity_3 extends AppCompatActivity {
                     }
                 };
 
-
+                requestQueue.add(request);
 
             }
-        });
+        });// 가입버튼 end
 
     }
 }
