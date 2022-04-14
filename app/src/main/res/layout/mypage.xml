@@ -29,14 +29,29 @@
 
         <TextView
             android:id="@+id/tvName"
-            android:layout_width="wrap_content"
+            android:layout_width="33dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="28dp"
-            android:text="신서후 / 사원"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="신서후"
             android:textSize="12dp"
             app:layout_constraintBottom_toTopOf="@+id/tvDept"
+            app:layout_constraintEnd_toStartOf="@+id/tvPos"
             app:layout_constraintStart_toEndOf="@+id/circle_iv"
-            app:layout_constraintTop_toTopOf="@+id/circle_iv" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvPos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="84dp"
+            android:text="사원"
+            android:textSize="12dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvName"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/tvDept"
@@ -74,6 +89,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/circle_iv"
             app:layout_constraintStart_toStartOf="@+id/tvDept"
             app:layout_constraintTop_toBottomOf="@+id/tvDept" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageButton

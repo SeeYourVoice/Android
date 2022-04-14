@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/pos_1"
+        android:title="원장" />
+    <item android:title="부원장" />
+    <item android:title="본부장" />
+    <item android:title="실장" />
+    <item android:title="이사" />
+    <item android:title="부장" />
+    <item android:title="팀장" />
+    <item android:title="실장" />
+    <item android:title="연구원" />
+</menu>
