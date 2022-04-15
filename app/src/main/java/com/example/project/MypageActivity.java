@@ -38,7 +38,7 @@ public class MypageActivity extends AppCompatActivity {
 
     String first_name,last_name,id,pw,profile_img,position_num,position_name,dept_name;
 
-    String org_fname,org_lname;
+    String org_fname,org_lname,org_pos,org_posnum;
 
     SharedPreferences sp;
     @Override
@@ -73,9 +73,12 @@ public class MypageActivity extends AppCompatActivity {
         position_num=sp.getString("position_num","none");
         position_name=sp.getString("position_name","none");
         dept_name=sp.getString("dept","none");
+
+        //원본
         org_fname=first_name;
         org_lname=last_name;
-
+        org_pos=position_name;
+        org_posnum=position_num;
         //합쳐서 출력
         tvName.setText(first_name+last_name);
         tvPos.setText(position_name);
@@ -262,14 +265,12 @@ public class MypageActivity extends AppCompatActivity {
                    public void onDismiss(DialogInterface dialogInterface) {
                        SharedPreferences sp= getSharedPreferences("info",0);
 
-                       tvPos.setText(sp.getString("position_name","none"));
-
                        if(requestQueue==null){
                            requestQueue = Volley.newRequestQueue(getApplicationContext());
 
                        }
 
-                       String serverUrl="http://121.147.52.219:8081/Moim_server/Moim_Edit_MyPw";
+                       String serverUrl="http://121.147.52.219:8081/Moim_server/Moim_Edit_MyPos";
 
 
                        request=new StringRequest(
@@ -279,11 +280,19 @@ public class MypageActivity extends AppCompatActivity {
                                    @Override
                                    public void onResponse(String response) {
 
+                                       if(response.equals("성공")){
+                                           tvPos.setText(sp.getString("position_name","none"));
+                                       }else{
+                                           SharedPreferences.Editor editor = sp.edit();
+                                           editor.putString("position_name",org_pos);
+                                           editor.commit();
+                                       }
                                    }
                                },
                                new Response.ErrorListener() {
                                    @Override
                                    public void onErrorResponse(VolleyError error) {
+
 
                                    }
                                }
@@ -295,7 +304,7 @@ public class MypageActivity extends AppCompatActivity {
                                Map<String,String> Params= new HashMap<String, String>();
 
                                Params.put("id",id);
-
+                               Params.put("position_name",sp.getString("position_name","none"));
                                return Params;
                            }
 
