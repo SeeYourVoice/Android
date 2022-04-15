@@ -26,8 +26,6 @@ public class JoinActivity_2 extends AppCompatActivity {
     TextView edtNewEmail, edtNewPw, edtPwCheck;
     Button btnCon, btnLoginGo;
 
-    RequestQueue requestQueue;
-
     HashMap<String, String> map;
 
     private Button validateButton;;
@@ -62,9 +60,6 @@ public class JoinActivity_2 extends AppCompatActivity {
                Intent intent= getIntent();
                HashMap<String, String> joininfo2 = (HashMap<String, String>)intent.getSerializableExtra("joininfo2");
 
-               if(requestQueue == null){
-                   requestQueue = Volley.newRequestQueue(getApplicationContext());
-               }
 
                String newemail = edtNewEmail.getText().toString();
                String newpw = edtNewPw.getText().toString();

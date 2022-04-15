@@ -31,8 +31,6 @@ public class JoinActivity_1 extends AppCompatActivity {
     TextView edtFname, edtLname;
     Button btnCon, btnLoginGo;
 
-    RequestQueue requestQueue;
-
     HashMap<String,String> map;
 
     private boolean validate = false;
@@ -62,9 +60,7 @@ public class JoinActivity_1 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(requestQueue == null){
-                    requestQueue = Volley.newRequestQueue(getApplicationContext());
-                }
+
 
                 String fname = edtFname.getText().toString();
                 String lname = edtLname.getText().toString();
