@@ -19,8 +19,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private RecyclerAdapter adapter;
-    ImageButton btnMypage;
-    ImageButton btnHome;
+    ImageButton btnMypage, btnHome, btnDeptList;
 
     // 뾰로롱
     private Animation fab_open, fab_close;
@@ -54,6 +53,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnMypage = findViewById(R.id.btnMypage);
         btnHome = findViewById(R.id.btnHome);
+        btnDeptList = findViewById(R.id.btnDeptList);
+
+        btnDeptList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+
+                // 촤르륵
+
+            }
+        });
 
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
