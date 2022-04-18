@@ -15,10 +15,12 @@ import android.widget.EditText;
 
 public class PopUp_mypage extends Dialog {
 
-    EditText edtMypageFname,edtMypageLname;
+    EditText edtMypageFname, edtMypageLname;
     Button btnSave;
     String fname,lname;
     AppCompatActivity activity = null;
+
+
 
     public void setActivity(AppCompatActivity activity) {
         this.activity = activity;

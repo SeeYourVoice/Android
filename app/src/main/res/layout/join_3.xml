@@ -96,7 +96,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
-    <EditText
+    <TextView
         android:id="@+id/edtDep"
         android:layout_width="250dp"
         android:layout_height="40dp"
@@ -106,11 +106,12 @@
         android:hint="Select Department"
         android:inputType="textPersonName"
         android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/edtCor"
         app:layout_constraintStart_toStartOf="@+id/edtCor"
         app:layout_constraintTop_toBottomOf="@+id/edtCor" />
 
-    <EditText
+    <TextView
         android:id="@+id/edtPos"
         android:layout_width="250dp"
         android:layout_height="40dp"
@@ -120,6 +121,7 @@
         android:hint="Select Position"
         android:inputType="textPersonName"
         android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/edtDep"
         app:layout_constraintStart_toStartOf="@+id/edtDep"
         app:layout_constraintTop_toBottomOf="@+id/edtDep" />
