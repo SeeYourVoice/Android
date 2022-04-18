@@ -139,7 +139,7 @@ public class JoinActivity_3 extends AppCompatActivity {
                 String department = edtDep.getText().toString();
                 String position = edtPos.getText().toString();
 
-                String serverUrl="http://121.147.52.219:8081/Moim_server/Moim_JoinService";
+                String serverUrl="http://222.102.104.208:8081/Moim_server/Moim_JoinService";
 
                 // 회사이름 칸 빈칸 x
                 if(validate)

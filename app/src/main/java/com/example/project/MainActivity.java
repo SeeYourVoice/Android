@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.mainlist);
 
         // 뾰로롱
         fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
