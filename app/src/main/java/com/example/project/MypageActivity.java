@@ -2,12 +2,19 @@ package com.example.project;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -15,6 +22,16 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferNetworkLossHandler;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,14 +39,22 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
+
+
 
 public class MypageActivity extends AppCompatActivity {
 
     ImageButton btnHome,btnProfile,btnPw,btnDept,btnPosition,btnDelEmail;
     TextView tvName,tvPos,tvDept,tvMypageEmail;
+    CircleImageView circle_Page;
 
     PopUp_mypage  PopUp_mypage;
 
@@ -41,6 +66,11 @@ public class MypageActivity extends AppCompatActivity {
     String org_fname,org_lname,org_pos,org_posnum;
 
     SharedPreferences sp;
+
+    private final int GET_GALLERY_IMAGE = 200;
+
+    File file;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +80,7 @@ public class MypageActivity extends AppCompatActivity {
         tvPos=findViewById(R.id.tvName);
         tvDept=findViewById(R.id.tvDept);
         tvMypageEmail=findViewById(R.id.tvMypageEmail);
+        circle_Page=findViewById(R.id.circle_Page);
 
         btnHome = findViewById(R.id.btnHome);
 
@@ -90,6 +121,13 @@ public class MypageActivity extends AppCompatActivity {
         layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
         layoutParams.dimAmount = 0.8f;
         getWindow().setAttributes(layoutParams);
+
+
+
+       // String url="https://s3.us-east-2.amazonaws.com/momoyami/moim/";
+        //https://s3.us-east-2.amazonaws.com/momoyami/moim/moim_Profile
+        Glide.with(this).load(profile_img).error(R.drawable.default_img).into(circle_Page);
+
 
         //홈버튼 클릭   ====================
         btnHome.setOnClickListener(new View.OnClickListener() {
@@ -318,9 +356,6 @@ public class MypageActivity extends AppCompatActivity {
        });
 
 
-
-
-
         // 회사변경    ====================
         btnDept.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -361,11 +396,92 @@ public class MypageActivity extends AppCompatActivity {
             }
         });
 
+        //사진 수정 클릭   ====================
+        circle_Page.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(ActivityCompat.checkSelfPermission(MypageActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+                        PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(MypageActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) !=
+                        PackageManager.PERMISSION_GRANTED){
+
+                    ActivityCompat.requestPermissions(MypageActivity.this,
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 0x0000001);
+                }
+
+
+
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                startActivityForResult(intent, 200);
+
+
+
+
+            }
+        });
+
 
 
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GET_GALLERY_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+
+            Uri selectedImageUri = data.getData();
+            circle_Page.setImageURI(selectedImageUri);
+
+            String path = getPathFromUri(selectedImageUri);
+
+            file = new File(path);
+
+            uploadWithTransferUtilty(id+"_Profile", file);
+        }
+
+    }
+
+    @SuppressLint("Range")
+    public String getPathFromUri(Uri uri){
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null );
+        cursor.moveToNext();
+        String path = cursor.getString( cursor.getColumnIndex( "_data" ) );
+        cursor.close();
+        return path;
+    }
+
+    public void uploadWithTransferUtilty(String fileName, File file) {
+
+        AWSCredentials awsCredentials = new BasicAWSCredentials("AKIASSS4QVJUPHIBRAOF", "yjOkST71e9ZXfla5iIpJMkfHoAcwz1GaJxHwbL95");    // IAM 생성하며 받은 것 입력
+        AmazonS3Client s3Client = new AmazonS3Client(awsCredentials, Region.getRegion(Regions.US_EAST_2));
+
+        TransferUtility transferUtility = TransferUtility.builder().s3Client(s3Client).context(getApplicationContext()).build();
+        TransferNetworkLossHandler.getInstance(getApplicationContext());
+
+        TransferObserver uploadObserver = transferUtility.upload("momoyami/moim", fileName, file);    // (bucket api, file이름, file객체)
+
+        uploadObserver.setTransferListener(new TransferListener() {
+            @Override
+            public void onStateChanged(int id, TransferState state) {
+                if (state == TransferState.COMPLETED) {
+                    // Handle a completed upload
+                }
+            }
+
+            @Override
+            public void onProgressChanged(int id, long current, long total) {
+                int done = (int) (((double) current / total) * 100.0);
+                Log.d("MYTAG", "UPLOAD - - ID: $id, percent done = $done");
+            }
+
+            @Override
+            public void onError(int id, Exception ex) {
+                Log.d("MYTAG", "UPLOAD ERROR - - ID: $id - - EX:" + ex.toString());
+            }
+        });
+    }
 
 
 }
