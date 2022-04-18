@@ -38,7 +38,7 @@
             android:textSize="12dp"
             app:layout_constraintBottom_toTopOf="@+id/tvDept"
             app:layout_constraintEnd_toStartOf="@+id/tvPos"
-            app:layout_constraintStart_toEndOf="@+id/circle_iv"
+            app:layout_constraintStart_toEndOf="@+id/circle_Page"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -64,7 +64,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/circle_iv"
+            android:id="@+id/circle_Page"
             android:layout_width="72dp"
             android:layout_height="70dp"
             android:layout_gravity="center"
@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:text="seohoo1996@naver.com"
             android:textSize="12dp"
-            app:layout_constraintBottom_toBottomOf="@+id/circle_iv"
+            app:layout_constraintBottom_toBottomOf="@+id/circle_Page"
             app:layout_constraintStart_toStartOf="@+id/tvDept"
             app:layout_constraintTop_toBottomOf="@+id/tvDept" />
 
