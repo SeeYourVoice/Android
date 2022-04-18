@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,7 +19,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private RecyclerAdapter adapter;
+    private RecyclerAdapter adapter, adapter2;
     ImageButton btnMypage, btnHome, btnDeptList;
 
     // 뾰로롱
@@ -48,8 +49,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //
 
         init();
+        init2();
 
         getData();
+
 
         btnMypage = findViewById(R.id.btnMypage);
         btnHome = findViewById(R.id.btnHome);
@@ -60,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, MainActivity.class);
 
-                // 촤르륵
 
             }
         });
@@ -84,8 +86,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
+    /////////////////////////////////////////////////////////////////////////////////////
+    private void init2(){ // 부서목록 리사이클러뷰
+        RecyclerView recyclerView2 = findViewById(R.id.recyclerView2);
 
-    private void init() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView2.setLayoutManager(linearLayoutManager);
+
+        adapter2 = new RecyclerAdapter();
+        recyclerView2.setAdapter(adapter2);
+
+
+    }
+
+    // 부서 목록
+    private void getData2() {
+        // 임의의 데이터입니다.
+        List<String> listDept = Arrays.asList("교육지원1팀", "교육지원2팀", "기획팀", "전략기획팀", "홍보팀",
+                "전략사업팀", "취업지원팀", "홍보팀");
+
+        for (int i = 0; i < listDept.size(); i++) {
+            // 각 List의 값들을 data 객체에 set 해줍니다.
+            Data data2 = new Data();
+            data2.setTitle(listDept.get(i));
+
+
+            // 각 값이 들어간 data를 adapter에 추가합니다.
+            adapter2.addItem(data2);
+        }
+
+        // adapter의 값이 변경되었다는 것을 알려줍니다.
+        adapter2.notifyDataSetChanged();
+    }///////////////////////////////////////////////////////////////////////////////////////
+
+    private void init() { // 회의목록 리사이클러뷰
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -93,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         adapter = new RecyclerAdapter();
         recyclerView.setAdapter(adapter);
-    }
+     }
 
     private void getData() {
         // 임의의 데이터입니다.
@@ -173,6 +207,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             isFabOpen = true;
         }
     }
+
+
+
+
+
 }
 
 
