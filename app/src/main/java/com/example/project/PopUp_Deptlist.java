@@ -50,6 +50,8 @@ public class PopUp_Deptlist extends Dialog {
         spinner = findViewById(R.id.dep_spinner);
         btnChoice =findViewById(R.id.btnChoice);
 
+        StringBuffer sbf = new StringBuffer();
+
 
         ArrayList<String> items=new ArrayList<>();
 
@@ -57,6 +59,8 @@ public class PopUp_Deptlist extends Dialog {
             requestQueue = Volley.newRequestQueue(context.getApplicationContext());
         }
 
+        // 222.102.104.208:8082
+        // 121.147.52.219:8081
 
         String serverUrl="http://121.147.52.219:8081/Moim_server/DeptListService";
 
@@ -66,12 +70,16 @@ public class PopUp_Deptlist extends Dialog {
                 new Response.Listener<String>() { // 응답을 받아왔을 때
                     @Override
                     public void onResponse(String response) {
+
+                        Log.d("check",response);
+
                         if(!(response ==null)){
                             try {
-                                JSONArray objArray= new JSONArray(response);
+                                JSONObject jsonObj = new JSONObject(response);
+                                JSONArray objArray= jsonObj.getJSONArray("dept_list");
                                 for(int i=0; i<objArray.length(); i++ ){
-                                    JSONObject obj=(JSONObject) objArray.get(i);
-                                    items.add(obj.getString("dept_list"));
+                                    String obj=(String) objArray.get(i);
+                                    items.add(obj);
                                 }
 
                                 ArrayAdapter adapter= new ArrayAdapter( getContext(), android.R.layout.simple_spinner_dropdown_item,items);
@@ -104,14 +112,15 @@ public class PopUp_Deptlist extends Dialog {
                 SharedPreferences sp= context.getSharedPreferences("info",0);
 
                 SharedPreferences.Editor editor = sp.edit();
-                editor.putString("dept_name",text);
+                editor.putString("dept_list",text);
                 editor.commit();
                 Log.d("선택된 부서",text);
+                dismiss();
             }
         });
 
 
-        dismiss();
+
     }
 }
 
