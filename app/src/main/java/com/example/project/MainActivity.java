@@ -94,6 +94,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onDismiss(DialogInterface dialogInterface) {
 
+                        SharedPreferences sp= getSharedPreferences("info",0);
+
                         if(requestQueue == null){
                             requestQueue = Volley.newRequestQueue(getApplicationContext());
 
