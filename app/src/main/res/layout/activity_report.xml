@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ReportActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView11">
+
+        <TextView
+            android:id="@+id/tv_ContextAbout"
+            android:layout_width="80dp"
+            android:layout_height="0dp"
+            android:background="@drawable/border"
+            android:gravity="center"
+            android:text="내   용"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_SubjectAbout"
+            app:layout_constraintTop_toBottomOf="@+id/tv_SubjectAbout" />
+
+        <TextView
+            android:id="@+id/tv_Title"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:background="@drawable/border"
+            android:gravity="center_vertical"
+            android:text="TextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_TitleAbout"
+            app:layout_constraintTop_toTopOf="@+id/tv_TitleAbout" />
+
+        <TextView
+            android:id="@+id/tv_DepAbout"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:background="@drawable/border"
+            android:gravity="center"
+            android:text="부 서 명"
+            app:layout_constraintStart_toEndOf="@+id/tv_Person"
+            app:layout_constraintTop_toTopOf="@+id/tv_Person" />
+
+        <TextView
+            android:id="@+id/tv_LocAbout"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:background="@drawable/border"
+            android:gravity="center"
+            android:text="장   소"
+            app:layout_constraintStart_toEndOf="@+id/tv_Date"
+            app:layout_constraintTop_toTopOf="@+id/tv_Date" />
+
+        <TextView
+            android:id="@+id/tv_Person"
+            android:layout_width="116dp"
+            android:layout_height="30dp"
+            android:background="@drawable/border"
+            android:gravity="center|center_vertical"
+            android:text="TextView"
+            app:layout_constraintStart_toEndOf="@+id/tv_PersonAbout"
+            app:layout_constraintTop_toBottomOf="@+id/tv_WriterAbout" />
+
+        <TextView
+            android:id="@+id/textView23"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:background="@drawable/border"
+            android:gravity="center_vertical"
+            android:text="TextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_SubjectAbout"
+            app:layout_constraintTop_toBottomOf="@+id/tv_PersonAbout" />
+
+        <TextView
+            android:id="@+id/tv_DateAbout"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:background="@drawable/border"
+            android:gravity="center"
+            android:text="일   시"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="@+id/tv_TitleAbout"
+            app:layout_constraintTop_toBottomOf="@+id/tv_TitleAbout" />
+
+        <TextView
+            android:id="@+id/tv_WriterAbout"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:background="@drawable/border"
+            android:gravity="center"
+            android:text="작 성 자"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="@+id/tv_DateAbout"
+            app:layout_constraintTop_toBottomOf="@+id/tv_DateAbout" />
+
+        <TextView
+            android:id="@+id/tv_PersonAbout"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:background="@drawable/border"
+            android:gravity="center"
+            android:text="참 석 자"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="@+id/tv_WriterAbout"
+            app:layout_constraintTop_toBottomOf="@+id/tv_WriterAbout" />
+
+        <TextView
+            android:id="@+id/textView22"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/border"
+            android:text="TextView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_ContextAbout"
+            app:layout_constraintTop_toBottomOf="@+id/tv_SubjectAbout" />
+
+        <TextView
+            android:id="@+id/tv_Loc"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:background="@drawable/border"
+            android:gravity="center|center_vertical"
+            android:text="TextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_LocAbout"
+            app:layout_constraintTop_toTopOf="@+id/tv_LocAbout" />
+
+        <TextView
+            android:id="@+id/tv_Time"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:background="@drawable/border"
+            android:gravity="center"
+            android:text="작 성 일"
+            app:layout_constraintStart_toEndOf="@+id/tv_Writer"
+            app:layout_constraintTop_toTopOf="@+id/tv_Writer" />
+
+        <TextView
+            android:id="@+id/tv_TitleAbout"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:background="@drawable/border"
+            android:gravity="center"
+            android:text="제   목"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_TimeAbout"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:background="@drawable/border"
+            android:gravity="center|center_vertical"
+            android:text="TextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_Time"
+            app:layout_constraintTop_toTopOf="@+id/tv_Time" />
+
+        <TextView
+            android:id="@+id/tv_Date"
+            android:layout_width="116dp"
+            android:layout_height="30dp"
+            android:background="@drawable/border"
+            android:gravity="center|center_vertical"
+            android:text="TextView"
+            app:layout_constraintStart_toEndOf="@+id/tv_DateAbout"
+            app:layout_constraintTop_toTopOf="@+id/tv_DateAbout" />
+
+        <TextView
+            android:id="@+id/tv_SubjectAbout"
+            android:layout_width="80dp"
+            android:layout_height="60dp"
+            android:background="@drawable/border"
+            android:gravity="center"
+            android:text="안   건"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="@+id/tv_PersonAbout"
+            app:layout_constraintTop_toBottomOf="@+id/tv_PersonAbout" />
+
+        <TextView
+            android:id="@+id/tv_Writer"
+            android:layout_width="116dp"
+            android:layout_height="30dp"
+            android:background="@drawable/border"
+            android:gravity="center|center_vertical"
+            android:text="TextView"
+            app:layout_constraintStart_toEndOf="@+id/tv_WriterAbout"
+            app:layout_constraintTop_toBottomOf="@+id/tv_DateAbout" />
+
+        <TextView
+            android:id="@+id/tv_Dep"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:background="@drawable/border"
+            android:gravity="center|center_vertical"
+            android:text="TextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_DepAbout"
+            app:layout_constraintTop_toTopOf="@+id/tv_DepAbout" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/imageView11"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo1" />
+
+    <Button
+        android:id="@+id/btn_Back"
+        android:layout_width="75dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="50dp"
+        android:text="뒤로가기"
+        android:textSize="10dp"
+        app:layout_constraintStart_toStartOf="@+id/constraintLayout2"
+        app:layout_constraintTop_toTopOf="@+id/imageView11" />
+</androidx.constraintlayout.widget.ConstraintLayout>

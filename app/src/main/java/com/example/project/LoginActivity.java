@@ -54,7 +54,6 @@ public class LoginActivity extends AppCompatActivity {
         //getSharedPreferences("파일이름",'모드')
         //모드 => 0 (읽기,쓰기가능)
         //모드 => MODE_PRIVATE (이 앱에서만 사용가능)
-        SharedPreferences preferences=getSharedPreferences("info", MODE_PRIVATE);
 
         //회원가입
         btnJoin.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(String response) {
                                 Log.d("응답",response);
+                                SharedPreferences preferences=getSharedPreferences("info", MODE_PRIVATE);
 
                                 try {
                                     if(!response.equals("false")) { //로그인이 성공했다면
