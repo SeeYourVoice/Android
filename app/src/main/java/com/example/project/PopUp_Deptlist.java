@@ -50,9 +50,6 @@ public class PopUp_Deptlist extends Dialog {
         spinner = findViewById(R.id.dep_spinner);
         btnChoice =findViewById(R.id.btnChoice);
 
-        StringBuffer sbf = new StringBuffer();
-
-
         ArrayList<String> items=new ArrayList<>();
 
         if(requestQueue==null){

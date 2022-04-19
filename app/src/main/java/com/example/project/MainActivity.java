@@ -4,15 +4,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
@@ -27,14 +28,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private RecyclerAdapter adapter;
     ImageButton btnMypage, btnHome, btnDeptList;
+    TextView tvDep;
+    RecyclerView recyclerView;
 
+    String text;
     // 뾰로롱
     private Animation fab_open, fab_close;
     private Boolean isFabOpen = false;
@@ -69,16 +72,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fab2.setOnClickListener(this);
         // 뾰로롱
 
-
-        getData();
-
-
-
         btnMypage = findViewById(R.id.btnMypage);
         btnHome = findViewById(R.id.btnHome);
         btnDeptList = findViewById(R.id.btnDeptList);
 
-        // 부서 리스트 보기 (세모 버튼) -> 팝업창 뜨게 할거야
+        // 부서 리스트 보기 (팝업창) ======================================================
         btnDeptList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -159,46 +157,79 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
     }
-    /////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    // 회의 리스트 ======================================================================
 
-    private void getData() {
-        // 임의의 데이터입니다.
-        List<String> listTitle = Arrays.asList("국화", "사막", "수국", "해파리", "코알라", "등대", "펭귄", "튤립",
-                "국화", "사막", "수국", "해파리", "코알라", "등대", "펭귄", "튤립");
-        List<String> listContent = Arrays.asList(
-                "이 꽃은 국화입니다.",
-                "여기는 사막입니다.",
-                "이 꽃은 수국입니다.",
-                "이 동물은 해파리입니다.",
-                "이 동물은 코알라입니다.",
-                "이것은 등대입니다.",
-                "이 동물은 펭귄입니다.",
-                "이 꽃은 튤립입니다.",
-                "이 꽃은 국화입니다.",
-                "여기는 사막입니다.",
-                "이 꽃은 수국입니다.",
-                "이 동물은 해파리입니다.",
-                "이 동물은 코알라입니다.",
-                "이것은 등대입니다.",
-                "이 동물은 펭귄입니다.",
-                "이 꽃은 튤립입니다."
-        );
+    // 1. Volley로 통신 -> 맨 처음엔 사용자 부서에 따른 회의 목록을 보여줘야한다.(request1)
 
-        for (int i = 0; i < listTitle.size(); i++) {
-            // 각 List의 값들을 data 객체에 set 해줍니다.
-            Data data = new Data();
-            data.setTitle(listTitle.get(i));
-            data.setContent(listContent.get(i));
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+        super.onCreate(savedInstanceState, persistentState);
 
-            // 각 값이 들어간 data를 adapter에 추가합니다.
-            adapter.addItem(data);
+        tvDep = findViewById(R.id.tvDep);
+        recyclerView = findViewById(R.id.recyclerView2);
+
+        ArrayList<String> items = new ArrayList<>();
+
+        // 아이디에 따른 부서 정보를 가져오고
+
+        SharedPreferences sp = getSharedPreferences("rec",0);
+
+        // 부서에 따른 회의 리스트를 가져와야한다.
+
+        if(requestQueue == null){
+            requestQueue = Volley.newRequestQueue(getApplicationContext());
         }
 
-        // adapter의 값이 변경되었다는 것을 알려줍니다.
-        adapter.notifyDataSetChanged();
+        String serverUrl = "http://121.147.52.219:8081/Moim_server/RecordService";
+
+        request = new StringRequest(
+                Request.Method.POST,
+                serverUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("record check", response);
+
+                        if (!(response == null)) {
+                            try {
+                                JSONObject jsonObj = new JSONObject(response);
+                                JSONArray objArray = jsonObj.getJSONArray("rec_list");
+
+
+
+                                for (int i = 0; i < items.size(); i++) {
+
+                                    Data data = new Data();
+                                    data.setTitle((String) objArray.get(i));
+
+                                    adapter.addItem(data);
+                                }
+                                adapter.notifyDataSetChanged();
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        );
+
+
     }
 
+    // 2. 부서 목록 + 버튼을 누르면 부서 리스트 팝업이 뜨고, 타 부서 이름을 누르면 타 부서의 회의 목록을 보여줘야한다. (request2)
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void onClick(View view) {
 
