@@ -109,11 +109,12 @@ public class PopUp_mypage_Pos extends Dialog {
                 editor.putString("position_name",text);
                 editor.commit();
                 Log.d("변경 직급",text);
+                dismiss();
             }
         });
 
 
-    dismiss();
+
     }
 
 }
