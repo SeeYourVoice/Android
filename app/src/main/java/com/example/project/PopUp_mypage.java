@@ -22,11 +22,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PopUp_mypage extends Dialog {
 
+
     CircleImageView circle_iv;
     EditText edtMypageFname,edtMypageLname;
     Button btnSave, btnImgFind;
+
     String fname,lname;
     AppCompatActivity activity = null;
+
+
 
     public void setActivity(AppCompatActivity activity) {
         this.activity = activity;
