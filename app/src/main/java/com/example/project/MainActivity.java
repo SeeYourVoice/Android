@@ -70,12 +70,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 뾰로롱
 
 
-        init();
-
         getData();
 
-        //부서정보 서버요청
-        getData2();
 
 
         btnMypage = findViewById(R.id.btnMypage);
@@ -93,6 +89,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 popUp_deptlist.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialogInterface) {
+
+                        SharedPreferences sp= getSharedPreferences("info",0);
 
                         if(requestQueue == null){
                             requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -163,25 +161,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     /////////////////////////////////////////////////////////////////////////////////////
 
-
-    // 부서 목록
-    private void getData2() {
-
-        // 임의의 데이터입니다.
-        List<String> listDept = Arrays.asList("교육지원1팀", "교육지원2팀", "기획팀", "전략기획팀", "홍보팀",
-                "전략사업팀", "취업지원팀", "홍보팀");
-
-    }
-
-    private void init() {
-        RecyclerView recyclerView = findViewById(R.id.recyclerView2);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        adapter = new RecyclerAdapter();
-        recyclerView.setAdapter(adapter);
-     }
 
     private void getData() {
         // 임의의 데이터입니다.
