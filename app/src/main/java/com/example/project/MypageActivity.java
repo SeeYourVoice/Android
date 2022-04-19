@@ -110,6 +110,8 @@ public class MypageActivity extends AppCompatActivity {
         org_lname=last_name;
         org_pos=position_name;
         org_posnum=position_num;
+
+
         //합쳐서 출력
         tvName.setText(first_name+last_name);
         tvPos.setText(position_name);
