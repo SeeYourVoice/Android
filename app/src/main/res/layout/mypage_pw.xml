@@ -7,7 +7,7 @@
 
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/edtDeptlist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
@@ -22,8 +22,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="새 비밀번호"
-        app:layout_constraintEnd_toEndOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintEnd_toEndOf="@+id/edtDeptlist"
+        app:layout_constraintTop_toBottomOf="@+id/edtDeptlist" />
 
     <TextView
         android:id="@+id/textView7"
@@ -57,7 +57,7 @@
         android:hint="현재 비밀번호 입력"
         android:inputType="textPassword"
         android:textSize="12dp"
-        app:layout_constraintStart_toEndOf="@+id/textView5"
+        app:layout_constraintStart_toEndOf="@+id/edtDeptlist"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
