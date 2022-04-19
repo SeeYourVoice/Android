@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Spinner;
+
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -161,15 +161,6 @@ public class JoinActivity_3 extends AppCompatActivity {
                 Log.d("입력", corporation);
                 Log.d("입력", department);
                 Log.d("입력", position);
-
-                // 입력
-                //map.put("edtCor", corporation);
-                //map.put("edtDep", department);
-                //map.put("edtPos", position);
-
-                // 회원가입 성공시 LoginActivity로 이동
-
-
 
 //////////////////////////////////////////////////////////////////////////////////////
                 request = new StringRequest(

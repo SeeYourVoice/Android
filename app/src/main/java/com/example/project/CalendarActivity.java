@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
@@ -18,6 +20,7 @@ public class CalendarActivity extends AppCompatActivity {
 
     public String fname=null;
     public String str=null;
+    public String id=null;
     public CalendarView calendarView;
     public Button cha_Btn,del_Btn,save_Btn;
     public TextView diaryTextView,textView2,textView3;
@@ -34,6 +37,10 @@ public class CalendarActivity extends AppCompatActivity {
         textView2=findViewById(R.id.textView2);
         contextEditText=findViewById(R.id.contextEditText);
 
+
+        SharedPreferences sp= getSharedPreferences("info",0);
+        id=sp.getString("user_email","none");
+
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
@@ -43,6 +50,7 @@ public class CalendarActivity extends AppCompatActivity {
                 cha_Btn.setVisibility(View.INVISIBLE);
                 del_Btn.setVisibility(View.INVISIBLE);
                 contextEditText.setText("");
+                checkDay(year,month,dayOfMonth,id);
             }
         });
         save_Btn.setOnClickListener(new View.OnClickListener() {
@@ -50,6 +58,8 @@ public class CalendarActivity extends AppCompatActivity {
             public void onClick(View view) {
                 saveDiary(fname);
                 str=contextEditText.getText().toString();
+                //문자열
+
                 textView2.setText(str);
                 save_Btn.setVisibility(View.INVISIBLE);
                 cha_Btn.setVisibility(View.VISIBLE);
@@ -61,10 +71,12 @@ public class CalendarActivity extends AppCompatActivity {
         });
     }
 
-    public void  checkDay(int cYear,int cMonth,int cDay,String userID){
-        fname=""+userID+cYear+"-"+(cMonth+1)+""+"-"+cDay+".txt";//저장할 파일 이름설정
+    //날짜 체크용 ==========================
+    public void  checkDay(int cYear,int cMonth,int cDay,String id){
+        fname=id+cYear+"-"+(cMonth+1)+""+"-"+cDay+".txt";//저장할 파일 이름설정
         FileInputStream fis=null;//FileStream fis 변수
-
+        
+        
         try{
             fis=openFileInput(fname);
 
@@ -73,7 +85,6 @@ public class CalendarActivity extends AppCompatActivity {
             fis.close();
 
             str=new String(fileData);
-
             contextEditText.setVisibility(View.INVISIBLE);
             textView2.setVisibility(View.VISIBLE);
             textView2.setText(str);
@@ -109,6 +120,7 @@ public class CalendarActivity extends AppCompatActivity {
                 }
             });
             if(textView2.getText()==null){
+
                 textView2.setVisibility(View.INVISIBLE);
                 save_Btn.setVisibility(View.VISIBLE);
                 cha_Btn.setVisibility(View.INVISIBLE);
@@ -120,20 +132,16 @@ public class CalendarActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    //메모 삭제용 ==========================
     @SuppressLint("WrongConstant")
     public void removeDiary(String readDay){
-        FileOutputStream fos=null;
+        deleteFile(readDay);
 
-        try{
-            fos=openFileOutput(readDay,MODE_NO_LOCALIZED_COLLATORS);
-            String content="";
-            fos.write((content).getBytes());
-            fos.close();
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
     }
+
+
+    //저장용 ==========================
     @SuppressLint("WrongConstant")
     public void saveDiary(String readDay){
         FileOutputStream fos=null;
@@ -147,4 +155,9 @@ public class CalendarActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+
+
+
+
 }

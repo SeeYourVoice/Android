@@ -1,17 +1,31 @@
 package com.example.project;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,8 +33,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private RecyclerAdapter adapter;
-    ImageButton btnMypage;
-    ImageButton btnHome;
+    ImageButton btnMypage, btnHome, btnDeptList;
 
     // 뾰로롱
     private Animation fab_open, fab_close;
@@ -28,32 +41,107 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FloatingActionButton fab, fab1, fab2;
     // 뾰로롱
 
+    //Volley통신관련객체
+    RequestQueue requestQueue;
+    StringRequest request;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainlist);
 
+        //RequestQueue객체 초기화
+        if(requestQueue == null){
+            requestQueue = Volley.newRequestQueue(MainActivity.this);
+        }
+
         // 뾰로롱
         fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab1 =(FloatingActionButton) findViewById(R.id.fab2);
+        fab1 = (FloatingActionButton) findViewById(R.id.fab2);
         fab2 = (FloatingActionButton) findViewById(R.id.fab1);
 
         fab.setOnClickListener(this);
         fab1.setOnClickListener(this);
         fab2.setOnClickListener(this);
         // 뾰로롱
-//
+
 
         init();
 
         getData();
 
+        //부서정보 서버요청
+        getData2();
+
+
         btnMypage = findViewById(R.id.btnMypage);
         btnHome = findViewById(R.id.btnHome);
+        btnDeptList = findViewById(R.id.btnDeptList);
+
+        // 부서 리스트 보기 (세모 버튼) -> 팝업창 뜨게 할거야
+        btnDeptList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopUp_Deptlist popUp_deptlist = new PopUp_Deptlist(MainActivity.this);
+                popUp_deptlist.setActivity(MainActivity.this);
+                popUp_deptlist.show();
+
+                popUp_deptlist.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+
+                        if(requestQueue == null){
+                            requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+                        }
+                        requestQueue.start();
+                        //////////////////////////서버통신 START/////////////////////////////////////
+
+
+                        String url = "http://121.147.52.219:8081/Moim_server/DeptListService";
+                        int method = Request.Method.GET;
+
+                        request = new StringRequest(
+                                method,
+                                url,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        Log.d("부서정보>>", response);
+
+                                        try {
+                                            JSONObject jsonObj = new JSONObject(response);
+                                            JSONArray jsonArr = jsonObj.getJSONArray("dept_list");
+
+                                            for(int i=0; i<jsonArr.length(); i++){
+                                                Log.d("부서명>>", jsonArr.getString(i));
+                                            }
+
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Log.d("부서정보>>", error.toString());
+                                    }
+                                });
+
+                        //서버요청실행
+                        requestQueue.add(request);
+
+                        /////////////////////////////서버통신 END////////////////////////////////////
+                    }
+                });
+
+            }
+        });
 
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +160,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+    }
+    /////////////////////////////////////////////////////////////////////////////////////
+
+
+    // 부서 목록
+    private void getData2() {
+
+        // 임의의 데이터입니다.
+        List<String> listDept = Arrays.asList("교육지원1팀", "교육지원2팀", "기획팀", "전략기획팀", "홍보팀",
+                "전략사업팀", "취업지원팀", "홍보팀");
 
     }
 
@@ -83,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         adapter = new RecyclerAdapter();
         recyclerView.setAdapter(adapter);
-    }
+     }
 
     private void getData() {
         // 임의의 데이터입니다.
@@ -163,5 +261,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             isFabOpen = true;
         }
     }
+
+
+
+
+
 }
 
