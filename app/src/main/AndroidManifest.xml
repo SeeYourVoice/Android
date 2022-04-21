@@ -34,28 +34,33 @@
             android:name=".PopUp_mypage"
             android:theme="@android:style/Theme.Dialog"
             tools:ignore="Instantiatable" />
-
         <activity
             android:name=".CalendarActivity"
             android:exported="true">
+
 
         </activity>
 
         <activity
             android:name=".ResultActivity"
-            android:exported="false">
+            android:exported="true">
 
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="false" >
+            android:exported="true" >
 
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
 
         <activity
             android:name=".MypageActivity"
-            android:exported="false" >
+            android:exported="true" >
 
 
         </activity>
@@ -75,11 +80,9 @@
             android:name=".LoginActivity"
 
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
+
         </activity>
 
     </application>

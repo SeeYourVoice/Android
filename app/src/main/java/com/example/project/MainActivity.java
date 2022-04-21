@@ -1,20 +1,24 @@
 package com.example.project;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -27,14 +31,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+
     private RecyclerAdapter adapter;
     ImageButton btnMypage, btnHome, btnDeptList;
+    TextView tvDep;
+    RecyclerView recyclerView;
 
+    String text;
     // 뾰로롱
     private Animation fab_open, fab_close;
     private Boolean isFabOpen = false;
@@ -51,10 +62,94 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainlist);
 
+        tvDep = findViewById(R.id.tvDep);
+        recyclerView = findViewById(R.id.recyclerView2);
+
+
         //RequestQueue객체 초기화
         if(requestQueue == null){
             requestQueue = Volley.newRequestQueue(MainActivity.this);
         }
+
+
+        // 아이디에 따른 부서 정보를 가져오고
+
+        SharedPreferences sp = getSharedPreferences("rec",0); //rec에 대한 정보를 담을
+        SharedPreferences sp_info = getSharedPreferences("info",0);
+
+        // 부서에 따른 회의 리스트를 가져와야한다.
+
+
+        //222.102.104.208:8082
+        //121.147.52.219:8081
+
+        String serverUrl = "http://121.147.52.219:8081/Moim_server/Moim_RecordService";
+
+        ArrayList<Data> items = new ArrayList<>();
+        request = new StringRequest(
+                Request.Method.POST,
+                serverUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("record check", response);
+
+                        if (!(response == null)) {
+                            try {
+
+                                JSONArray jsonArray = new JSONArray(response);
+
+
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject obj= (JSONObject) jsonArray.get(i);
+                                    //String text = obj.getString("");
+
+                                    //날짜랑 제목
+                                    String rec_name=obj.getString("rec_name");
+                                    String rec_date=obj.getString("rec_date");
+
+                                    //Log.d("오류",rec_date+rec_name);
+                                    items.add(new Data(rec_name,rec_date));
+
+                                }
+                                adapter = new RecyclerAdapter();
+
+                                adapter.addItem(items);
+
+                                recyclerView.setAdapter(adapter);
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        ){
+
+            //request에 값을 넣어서 서버로 넘겨주는 부분.
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String,String>();
+
+                Log.d("회의리스트", "회의");
+                params.put("dept_seq",sp_info.getString("dept_seq","none"));
+
+                return params;
+            }
+        };
+        requestQueue.add(request);
+
+
+        /////////////////////////////////////////////////////////////////////////
 
         // 뾰로롱
         fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
@@ -64,21 +159,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fab1 = (FloatingActionButton) findViewById(R.id.fab2);
         fab2 = (FloatingActionButton) findViewById(R.id.fab1);
 
+        adapter = new RecyclerAdapter();
+
         fab.setOnClickListener(this);
         fab1.setOnClickListener(this);
         fab2.setOnClickListener(this);
         // 뾰로롱
 
-
-        getData();
-
-
-
         btnMypage = findViewById(R.id.btnMypage);
         btnHome = findViewById(R.id.btnHome);
         btnDeptList = findViewById(R.id.btnDeptList);
 
-        // 부서 리스트 보기 (세모 버튼) -> 팝업창 뜨게 할거야
+        // 부서 리스트 보기 (팝업창) ======================================================
         btnDeptList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,52 +178,97 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 popUp_deptlist.setActivity(MainActivity.this);
                 popUp_deptlist.show();
 
+                adapter.clear();
+
                 popUp_deptlist.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialogInterface) {
 
+
+
                         SharedPreferences sp= getSharedPreferences("info",0);
+                        String dept_choice =sp.getString("dept_choice","none");
+                        tvDep.setText(dept_choice);
+
 
                         if(requestQueue == null){
                             requestQueue = Volley.newRequestQueue(getApplicationContext());
-
                         }
-                        requestQueue.start();
+
+                        //requestQueue.start();
+
                         //////////////////////////서버통신 START/////////////////////////////////////
 
 
-                        String url = "http://121.147.52.219:8081/Moim_server/DeptListService";
+                        String serverUrl = "http://222.102.104.208:8082/Moim_server/Moim_RecordService";
                         int method = Request.Method.GET;
-
                         request = new StringRequest(
-                                method,
-                                url,
+                                Request.Method.POST,
+                                serverUrl,
                                 new Response.Listener<String>() {
                                     @Override
                                     public void onResponse(String response) {
-                                        Log.d("부서정보>>", response);
+                                        Log.d("record check", response);
 
-                                        try {
-                                            JSONObject jsonObj = new JSONObject(response);
-                                            JSONArray jsonArr = jsonObj.getJSONArray("dept_list");
+                                        if (!(response == null)) {
+                                            try {
 
-                                            for(int i=0; i<jsonArr.length(); i++){
-                                                Log.d("부서명>>", jsonArr.getString(i));
+                                                JSONArray jsonArray = new JSONArray(response);
+
+
+                                                for (int i = 0; i < jsonArray.length(); i++) {
+                                                    JSONObject obj= (JSONObject) jsonArray.get(i);
+                                                    //String text = obj.getString("");
+
+                                                    //날짜랑 제목
+                                                    String rec_name=obj.getString("rec_name");
+                                                    String rec_date=obj.getString("rec_date");
+
+                                                    //Log.d("오류",rec_date+rec_name);
+                                                    items.add(new Data(rec_name,rec_date));
+
+                                                }
+
+
+
+                                                adapter.addItem(items);
+
+
+                                                recyclerView.setAdapter(adapter);
+
+
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
                                             }
 
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
                                         }
                                     }
                                 },
                                 new Response.ErrorListener() {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
-                                        Log.d("부서정보>>", error.toString());
-                                    }
-                                });
 
-                        //서버요청실행
+                                    }
+                                }
+                        ){
+
+                            //request에 값을 넣어서 서버로 넘겨주는 부분.
+                            @Nullable
+                            @Override
+                            protected Map<String, String> getParams() throws AuthFailureError {
+                                Map<String,String> params = new HashMap<String,String>();
+
+
+                                SharedPreferences sp= getSharedPreferences("dept_seq",0);
+                                String dept_seq=sp.getString(dept_choice,"None");
+
+                                params.put("dept_seq",dept_seq);
+
+                                Log.d("회의리스트", dept_seq);
+
+                                return params;
+                            }
+                        };
                         requestQueue.add(request);
 
                         /////////////////////////////서버통신 END////////////////////////////////////
@@ -158,45 +295,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-    }
-    /////////////////////////////////////////////////////////////////////////////////////
-
-
-    private void getData() {
-        // 임의의 데이터입니다.
-        List<String> listTitle = Arrays.asList("국화", "사막", "수국", "해파리", "코알라", "등대", "펭귄", "튤립",
-                "국화", "사막", "수국", "해파리", "코알라", "등대", "펭귄", "튤립");
-        List<String> listContent = Arrays.asList(
-                "이 꽃은 국화입니다.",
-                "여기는 사막입니다.",
-                "이 꽃은 수국입니다.",
-                "이 동물은 해파리입니다.",
-                "이 동물은 코알라입니다.",
-                "이것은 등대입니다.",
-                "이 동물은 펭귄입니다.",
-                "이 꽃은 튤립입니다.",
-                "이 꽃은 국화입니다.",
-                "여기는 사막입니다.",
-                "이 꽃은 수국입니다.",
-                "이 동물은 해파리입니다.",
-                "이 동물은 코알라입니다.",
-                "이것은 등대입니다.",
-                "이 동물은 펭귄입니다.",
-                "이 꽃은 튤립입니다."
-        );
-
-        for (int i = 0; i < listTitle.size(); i++) {
-            // 각 List의 값들을 data 객체에 set 해줍니다.
-            Data data = new Data();
-            data.setTitle(listTitle.get(i));
-            data.setContent(listContent.get(i));
-
-            // 각 값이 들어간 data를 adapter에 추가합니다.
-            adapter.addItem(data);
-        }
-
-        // adapter의 값이 변경되었다는 것을 알려줍니다.
-        adapter.notifyDataSetChanged();
     }
 
     @Override
