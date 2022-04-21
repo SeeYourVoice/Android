@@ -63,10 +63,7 @@
             android:name=".MainActivity"
             android:exported="false" />
       
-        <activity
-            android:name=".CalendarActivity"
-            android:exported="false" />
-
+    
         <activity
             android:name=".MypageActivity"
             android:exported="true" />
