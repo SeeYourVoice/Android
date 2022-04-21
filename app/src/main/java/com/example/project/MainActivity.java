@@ -73,17 +73,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         // 아이디에 따른 부서 정보를 가져오고
-
         SharedPreferences sp = getSharedPreferences("rec",0); //rec에 대한 정보를 담을
         SharedPreferences sp_info = getSharedPreferences("info",0);
 
-        // 부서에 따른 회의 리스트를 가져와야한다.
 
+        //부서 이름 붙임.
+        tvDep.setText(sp_info.getString("dept","부서 이름")); //키 / 디폴트
+
+
+        // 부서에 따른 회의 리스트를 가져와야한다.
 
         //222.102.104.208:8082
         //121.147.52.219:8081
 
-        String serverUrl = "http://121.147.52.219:8081/Moim_server/Moim_RecordService";
+        String serverUrl = "http://222.102.104.208:8082/Moim_server/Moim_RecordService";
 
         ArrayList<Data> items = new ArrayList<>();
         request = new StringRequest(
@@ -96,9 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         if (!(response == null)) {
                             try {
-
                                 JSONArray jsonArray = new JSONArray(response);
-
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject obj= (JSONObject) jsonArray.get(i);
@@ -113,9 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                 }
                                 adapter = new RecyclerAdapter();
-
                                 adapter.addItem(items);
-
                                 recyclerView.setAdapter(adapter);
 
 
@@ -140,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> params = new HashMap<String,String>();
 
-                Log.d("회의리스트", "회의");
+                Log.d("회의리스트 11111", sp_info.getString("dept_seq","none"));
                 params.put("dept_seq",sp_info.getString("dept_seq","none"));
 
                 return params;
