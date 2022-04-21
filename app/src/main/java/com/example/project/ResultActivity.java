@@ -80,7 +80,7 @@ public class ResultActivity extends AppCompatActivity implements View.OnClickLis
 
         /* adapt data */
         mResultItems = new ArrayList<>();
-        for(int i=1;i<=100;i++){
+        for(int i=1;i<=100;i++){ //텍스트 붙일 ->>>>>>>>>>>>>>>>>>>>>>>>>>
                 mResultItems.add(new ResultItem(R.drawable.logo1,i + "번 째 메세지"));
         }
         mResultAdapter.setFriendList(mResultItems);

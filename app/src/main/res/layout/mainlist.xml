@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
@@ -13,6 +14,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView2"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="30dp"
@@ -24,7 +26,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView7"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="1.0">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -75,19 +77,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="기술 1팀"
+        android:text="부서이름"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="@+id/recyclerView2"
         app:layout_constraintTop_toBottomOf="@+id/imageView7" />
 
     <ImageButton
         android:id="@+id/btnDeptList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_width="43dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="8dp"
+        android:background="#00FFFFFF"
         app:layout_constraintStart_toStartOf="@+id/recyclerView2"
         app:layout_constraintTop_toBottomOf="@+id/recyclerView2"
-        app:srcCompat="@drawable/ss" />
+        app:srcCompat="@drawable/add_stroke" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
