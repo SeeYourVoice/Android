@@ -2,6 +2,7 @@ package com.example.project;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +26,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class PopUp_Deptlist extends Dialog {
     Spinner spinner;
@@ -59,7 +62,7 @@ public class PopUp_Deptlist extends Dialog {
         // 222.102.104.208:8082
         // 121.147.52.219:8081
 
-        String serverUrl="http://121.147.52.219:8081/Moim_server/DeptListService";
+        String serverUrl="http://222.102.104.208:8082/Moim_server/DeptListService";
 
         request=new StringRequest(
                 Request.Method.POST, // 방식
@@ -68,19 +71,40 @@ public class PopUp_Deptlist extends Dialog {
                     @Override
                     public void onResponse(String response) {
 
-                        Log.d("check",response);
+                        Log.d("check_on",response);
 
                         if(!(response ==null)){
                             try {
-                                JSONObject jsonObj = new JSONObject(response);
-                                JSONArray objArray= jsonObj.getJSONArray("dept_list");
+                               // JSONObject jsonObj = new JSONObject(response);
+                               // JSONArray objArray= jsonObj.getJSONArray("dept_name");
+
+                                JSONArray objArray= new JSONArray(response);
+                                SharedPreferences sp= context.getSharedPreferences("dept_seq",0);
+
                                 for(int i=0; i<objArray.length(); i++ ){
-                                    String obj=(String) objArray.get(i);
-                                    items.add(obj);
+                                    //String obj=(String)objArray.get(i);
+                                    JSONObject obj=(JSONObject) objArray.get(i);
+                                    items.add(obj.getString("dept_name")); //스피너에 붙이는 부분
+                                    Log.d("dept_name",obj.getString("dept_name"));
+
+
+                                    SharedPreferences.Editor editor = sp.edit();
+
+                                    editor.putString(obj.getString("dept_name"),obj.getString("dept_seq")); //집어넣고
+                                    editor.commit();
                                 }
 
-                                ArrayAdapter adapter= new ArrayAdapter( getContext(), android.R.layout.simple_spinner_dropdown_item,items);
-                                spinner.setAdapter(adapter);
+
+
+                                ArrayAdapter dept_adapter= new ArrayAdapter(getContext(), android.R.layout.simple_spinner_dropdown_item,items);
+                                spinner.setAdapter(dept_adapter); // 리스트뷰에 어댑터 적용
+
+
+                               /* adapter = new RecyclerAdapter();
+
+                                adapter.addItem(items);
+
+                                recyclerView.setAdapter(adapter); */
 
 
                             } catch (JSONException e) {
@@ -109,11 +133,17 @@ public class PopUp_Deptlist extends Dialog {
                 SharedPreferences sp= context.getSharedPreferences("info",0);
 
                 SharedPreferences.Editor editor = sp.edit();
-                editor.putString("dept_list",text);
+                editor.putString("dept_choice",text);
                 editor.commit();
                 Log.d("선택된 부서",text);
+
+
+
                 dismiss();
+
+
             }
+
         });
 
 

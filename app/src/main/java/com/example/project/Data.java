@@ -3,49 +3,26 @@ package com.example.project;
 
 public class Data {
 
-    private String title;
-    private String content;
-    private int resId, image;
+  private String title;
+  private String Date;
 
-    public Data() {
-
-    }
-    public Data(int image, String title, String content) {
-        this.image = image;
+    public Data(String title, String date) {
         this.title = title;
-        this.content = content;
+        this.Date = date;
     }
 
-
-
-    public String getTitle() {
-        return title;
-    }
+    public String getTitle() { return title;   }
 
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public String getContent() {
-        return content;
+    public String getDate() {
+        return Date;
     }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public int getResId() {
-        return resId;
-    }
-
-    public void setResId(int resId) {
-        this.resId = resId;
-    }
-
-    public int getImage() {return image;}
-
-    public void setImage(int image) {
-        this.image = image;
+    public void setDate(String date) {
+        Date = date;
     }
 }
 
