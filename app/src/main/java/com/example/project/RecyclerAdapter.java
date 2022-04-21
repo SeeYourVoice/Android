@@ -127,7 +127,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ItemVi
             }
 
 
-            String serverURL="http://121.147.52.219:8081/Moim_server/Moim_RecordInfoService";
+            String serverURL="http://222.102.104.208:8082/Moim_server/Moim_RecordInfoService";
 
             request= new StringRequest(
                     Request.Method.GET,
